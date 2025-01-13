@@ -48,7 +48,7 @@ bot.on('text', (ctx) => {
     // Формируем сообщение с играми провайдера
     const gamesLinks = providerGames.map(game => {
       const gameNameFormatted = game.replace(/\s+/g, '-').toLowerCase();
-      return `https://pp-cc-227.com/Yyz/az/casino/provider/${userInput}/${gameNameFormatted}?mode=real`;
+      return https://www.pin-up191.com/az/casino/provider/${userInput}/${gameNameFormatted}?mode=real`;
     }).join('\n');
 
     const message = lang === 'ru' 
@@ -64,7 +64,7 @@ bot.on('text', (ctx) => {
 
     if (gameFound) {
       // Находим ссылку для игры
-      const gameLink = `https://pp-cc-227.com/Yyz/az/casino/provider/${gameFound}/${userInput.replace(/\s+/g, '-').toLowerCase()}?mode=real`;
+      const gameLink = https://www.pin-up191.com/az/casino/provider/${gameFound}/${userInput.replace(/\s+/g, '-').toLowerCase()}?mode=real`;
       const message = lang === 'ru' 
         ? `Вот твоя игра! 🎯: ${gameLink}` 
         : `Oyunun linki burada! 🎯: ${gameLink}`;
