@@ -1,7 +1,7 @@
 {
   "ru": {
     "providers": {
-      "PGSoft": [
+      "pg-soft": [
         "Leprechaun Riches",
         "Spirited Wonders",
         "Wild Bounty Showdown",
@@ -46,7 +46,7 @@
         "Beasts Of Fire",
         "Boat Bonanza Down Under"
       ],
-      "Spinomenal": [
+      "spinomenal": [
         "Baba Yaga Tales",
         "Majestic Bison",
         "Majestic Claws - Wild Snow",
@@ -65,7 +65,7 @@
         "PIN-UP Book Of Demi Gods 2",
         "Book Of Savannahs Queen"
       ],
-      "Spribe": [
+      "spribe": [
         "Mines",
         "Keno",
         "Dice",
@@ -76,7 +76,7 @@
         "HiLo",
         "Aviator"
       ],
-      "Playson": [
+      "playson": [
         "Burning Wins: classic 5 lines",
         "Thunder Coins: Hold and Win",
         "Energy Coins: Hold and Win",
@@ -113,7 +113,7 @@
         "Legend of Cleopatra",
         "3 Fruits Win: 10 Lines"
       ],
-      "NolimitCity": [
+      "nolimit": [
         "Disturbed",
         "Jingle Balls",
         "Bounty Hunters",
@@ -127,7 +127,7 @@
         "Hot 4 Cash",
         "Hot Nudge"
       ],
-      "Gamzix": [
+      "gamzix": [
         "Ruby Win: Hold The Spin",
         "Japanese Coin: Hold The Spin",
         "Samba Stars: Hold the Spin",
@@ -148,7 +148,7 @@
         "40 Sweet Fruits",
         "Locky Fruits: Hold the Spin"
       ],
-      "NetGame": [
+      "netgame": [
         "Royal Fruits 5: Hold n Link",
         "Frog Princess",
         "Cactus Riches: Cash Pool",
@@ -185,7 +185,7 @@
         "Cashn Fruits 100",
         "Allways Lucky Pot"
       ],
-      "Amusnet": [
+      "amusnet": [
         "Shining Crown",
         "Ultimate Hot",
         "Fruity Time",
@@ -206,7 +206,7 @@
         "100 Bulky Fruits",
         "Wild Goals"
       ],
-        "Amatic": [
+        "amatic": [
         "Lucky Joker 10 Extra Gifts",
         "All Ways Hot Fruits",
         "Hot Fruits 100",
@@ -229,7 +229,7 @@
   },
   "az": {
     "providers": {
-      "PGSoft": [
+      "pg-soft": [
         "Leprechaun Riches",
         "Spirited Wonders",
         "Wild Bounty Showdown",
@@ -274,7 +274,7 @@
         "Beasts Of Fire",
         "Boat Bonanza Down Under"
       ],
-      "Spinomenal": [
+      "spinomenal": [
         "Baba Yaga Tales",
         "Majestic Bison",
         "Majestic Claws - Wild Snow",
@@ -293,7 +293,7 @@
         "PIN-UP Book Of Demi Gods 2",
         "Book Of Savannahs Queen"
       ],
-      "Spribe": [
+      "spribe": [
         "Mines",
         "Keno",
         "Dice",
@@ -304,7 +304,7 @@
         "HiLo",
         "Aviator"
       ],
-      "Playson": [
+      "playson": [
         "Burning Wins: classic 5 lines",
         "Thunder Coins: Hold and Win",
         "Energy Coins: Hold and Win",
@@ -341,7 +341,7 @@
         "Legend of Cleopatra",
         "3 Fruits Win: 10 Lines"
       ],
-      "NolimitCity": [
+      "nolimit": [
         "Disturbed",
         "Jingle Balls",
         "Bounty Hunters",
@@ -355,7 +355,7 @@
         "Hot 4 Cash",
         "Hot Nudge"
       ],
-      "Gamzix": [
+      "gamzix": [
         "Ruby Win: Hold The Spin",
         "Japanese Coin: Hold The Spin",
         "Samba Stars: Hold the Spin",
@@ -376,7 +376,7 @@
         "40 Sweet Fruits",
         "Locky Fruits: Hold the Spin"
       ],
-      "NetGame": [
+      "netgame": [
         "Royal Fruits 5: Hold n Link",
         "Frog Princess",
         "Cactus Riches: Cash Pool",
@@ -413,7 +413,7 @@
         "Cashn Fruits 100",
         "Allways Lucky Pot"
       ],
-      "Amusnet": [
+      "amusnet": [
         "Shining Crown",
         "Ultimate Hot",
         "Fruity Time",
@@ -434,7 +434,7 @@
         "100 Bulky Fruits",
         "Wild Goals"
       ],
-        "Amatic": [
+        "amatic": [
         "Lucky Joker 10 Extra Gifts",
         "All Ways Hot Fruits",
         "Hot Fruits 100",
