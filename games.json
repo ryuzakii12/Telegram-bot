@@ -245,7 +245,10 @@
         "40 Lucky King Bell Link",
         "Vampire Night Bell Link",
         "40 Lucky King Extreme Bell Link"
-    ]
+    ],
+"bgaming": [
+        "Book of Pyramids",
+]
     }
   },
   "az": {
@@ -494,7 +497,10 @@
         "40 Lucky King Bell Link",
         "Vampire Night Bell Link",
         "40 Lucky King Extreme Bell Link"
-    ]
+    ],
+        "bgaming": [
+        "Book of Pyramids",
+]
     }
   }
 }
