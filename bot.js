@@ -1,3 +1,15 @@
+const { Telegraf, Markup } = require('telegraf'); // Импортируем библиотеку Telegraf
+const gamesData = require('./games.json'); // Подключаем JSON с играми
+
+const bot = new Telegraf('7928615793:AAE3IktbE-rYlUEXTcV_yTKwfeXAQ_zV-no'); // Замените на токен вашего бота
+
+// Храним выбранный язык пользователя
+const userLanguages = {};
+let isUnderMaintenance = false; // Переменная для режима технических работ
+
+// ID администратора
+const YOUR_ADMIN_ID = 5339012301; // Укажите ваш Telegram ID
+
 // Команда для включения/выключения технических работ
 bot.command('maintenance', (ctx) => {
   const adminId = ctx.from.id; // Получаем ID пользователя
@@ -8,6 +20,25 @@ bot.command('maintenance', (ctx) => {
   } else {
     ctx.reply('У вас нет прав для выполнения этой команды.');
   }
+});
+
+// Команда /start с кнопками для выбора языка
+bot.start((ctx) => {
+  ctx.reply('Привет! Я бот, который помогает найти игры.\n\nВыберите язык:', Markup.inlineKeyboard([
+    Markup.button.callback('Русский', 'set_lang_ru'),
+    Markup.button.callback('Azərbaycan', 'set_lang_az')
+  ]));
+});
+
+// Обработка выбора языка
+bot.action('set_lang_ru', (ctx) => {
+  userLanguages[ctx.chat.id] = 'ru';
+  ctx.reply('Ну что, русский язык выбран! Напиши название провайдера или слот, и я расскажу, где её найти. 🔍💥:');
+});
+
+bot.action('set_lang_az', (ctx) => {
+  userLanguages[ctx.chat.id] = 'az';
+  ctx.reply('Azərbaycan dili seçildi! Provayder və ya oyunun adını yaz, və mən sənə onu taparam! 🎮🔥:');
 });
 
 // Проверка перед выполнением всех сообщений
@@ -73,3 +104,8 @@ bot.on('text', (ctx) => {
     }
   }
 });
+
+// Запуск бота
+bot.launch();
+
+console.log('Бот запущен!');
