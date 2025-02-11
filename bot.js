@@ -34,7 +34,7 @@ bot.action('set_lang_az', (ctx) => {
 bot.command('maintenance', (ctx) => {
   const adminId = ctx.from.id; // Получаем ID пользователя
 
-  if (adminId === YOUR_ADMIN_ID) {
+  if (adminId === 5339012301) {
     isUnderMaintenance = !isUnderMaintenance;
     ctx.reply(`Режим технических работ ${isUnderMaintenance ? 'включён' : 'выключен'}.`);
 
