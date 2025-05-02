@@ -1,20 +1,19 @@
-const { Telegraf, Markup } = require('telegraf'); // Импортируем библиотеку Telegraf
-const gamesData = require('./games.json'); // Подключаем JSON с играми
+const { Telegraf, Markup } = require('telegraf'); // Telegraf kitabxanası
+const gamesData = require('./games.json'); // JSON faylı ilə oyunlar
 
-const bot = new Telegraf('7928615793:AAE3IktbE-rYlUEXTcV_yTKwfeXAQ_zV-no'); // Замените на токен вашего бота
+const bot = new Telegraf('7928615793:AAE3IktbE-rYlUEXTcV_yTKwfeXAQ_zV-no'); // Bot tokeninizi buraya yazın
 
-// Храним выбранный язык пользователя
+// İstifadəçinin seçdiyi dili saxlayırıq
 const userLanguages = {};
-let isUnderMaintenance = false; // Переменная для режима технических работ
+let isUnderMaintenance = false; // Texniki iş rejimi üçün dəyişən
 
-// ID администратора
-const YOUR_ADMIN_ID = 5339012301; // Укажите ваш Telegram ID
+// Admin ID-si
+const YOUR_ADMIN_ID = 5339012301;
 
-// Команда для включения/выключения технических работ
+// Texniki iş rejimini dəyişmək üçün komanda
 bot.command('maintenance', (ctx) => {
-  const adminId = ctx.from.id; // Получаем ID пользователя
-  
-  if (adminId === 5339012301) {
+  const adminId = ctx.from.id;
+  if (adminId === YOUR_ADMIN_ID) {
     isUnderMaintenance = !isUnderMaintenance;
     ctx.reply(`Режим технических работ ${isUnderMaintenance ? 'включён' : 'выключен'}.`);
   } else {
@@ -22,7 +21,7 @@ bot.command('maintenance', (ctx) => {
   }
 });
 
-// Команда /start с кнопками для выбора языка
+// /start komandası — dil seçimi
 bot.start((ctx) => {
   ctx.reply('Привет! Я бот, который помогает найти игры.\n\nВыберите язык:', Markup.inlineKeyboard([
     Markup.button.callback('Русский', 'set_lang_ru'),
@@ -30,7 +29,7 @@ bot.start((ctx) => {
   ]));
 });
 
-// Обработка выбора языка
+// Dil seçimi üçün cavablar
 bot.action('set_lang_ru', (ctx) => {
   userLanguages[ctx.chat.id] = 'ru';
   ctx.reply('Ну что, русский язык выбран! Напиши название провайдера или слот, и я расскажу, где её найти. 🔍💥:');
@@ -41,7 +40,7 @@ bot.action('set_lang_az', (ctx) => {
   ctx.reply('Azərbaycan dili seçildi! Provayder və ya oyunun adını yaz, və mən sənə onu taparam! 🎮🔥:');
 });
 
-// Проверка перед выполнением всех сообщений
+// Texniki iş rejimini yoxlayırıq
 bot.use((ctx, next) => {
   if (isUnderMaintenance) {
     ctx.reply('⚙️ Бот временно недоступен из-за технических работ. Попробуйте позже.');
@@ -50,27 +49,25 @@ bot.use((ctx, next) => {
   return next();
 });
 
-// Обработка текста (ввод названия провайдера или игры)
+// Mətn mesajlarının işlənməsi
 bot.on('text', (ctx) => {
-  const lang = userLanguages[ctx.chat.id]; // Получаем выбранный язык пользователя
+  const lang = userLanguages[ctx.chat.id];
   if (!lang) {
     ctx.reply('Пожалуйста, выберите язык сначала.');
     return;
   }
 
-  const providers = gamesData[lang]?.providers; // Получаем список провайдеров
+  const providers = gamesData[lang]?.providers;
   if (!providers) {
     ctx.reply('Не удалось найти провайдеров для выбранного языка.');
     return;
   }
 
-  const userInput = ctx.message.text.trim().toLowerCase(); // Получаем введённый текст и преобразуем к нижнему регистру
-  console.log(`Поиск для: ${userInput}`); // Отладочная информация
+  const userInput = ctx.message.text.trim().toLowerCase();
+  console.log(`Поиск для: ${userInput}`);
 
-  // Проверяем, является ли введённый текст названием провайдера
   const providerGames = providers[userInput];
   if (providerGames) {
-    // Формируем сообщение с играми провайдера
     const gamesLinks = providerGames.map(game => {
       const gameNameFormatted = game.replace(/\s+/g, '-').toLowerCase();
       return `https://www.pin-up191.com/az/casino/provider/${userInput}/${gameNameFormatted}?mode=real`;
@@ -82,13 +79,11 @@ bot.on('text', (ctx) => {
 
     ctx.reply(message);
   } else {
-    // Проверяем, является ли введённый текст названием игры
     const gameFound = Object.keys(providers).find(provider => 
       providers[provider].some(game => game.toLowerCase() === userInput)
     );
 
     if (gameFound) {
-      // Находим ссылку для игры
       const gameLink = `https://www.pin-up191.com/az/casino/provider/${gameFound}/${userInput.replace(/\s+/g, '-').toLowerCase()}?mode=real`;
       const message = lang === 'ru' 
         ? `Вот твоя игра! 🎯: ${gameLink}` 
@@ -96,7 +91,6 @@ bot.on('text', (ctx) => {
       
       ctx.reply(message);
     } else {
-      // Если ни провайдера, ни игры не найдено
       const message = lang === 'ru' 
         ? 'Не удалось найти провайдера или игру. Попробуй снова с правильным названием.' 
         : 'Provayder və ya oyun tapılmadı. Yenidən düzgün adla cəhd edin.';
@@ -105,7 +99,9 @@ bot.on('text', (ctx) => {
   }
 });
 
-// Запуск бота
-bot.launch();
-
-console.log('Бот запущен!');
+// Webhook-u sil və botu işə sal
+(async () => {
+  await bot.telegram.deleteWebhook(); // webhook rejimini dayandırırıq
+  await bot.launch(); // polling rejimini işə salırıq
+  console.log('Бот запущен!');
+})();
