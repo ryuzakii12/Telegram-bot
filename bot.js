@@ -101,9 +101,15 @@ bot.on('text', (ctx) => {
 (async () => {
   try {
     await bot.telegram.deleteWebhook(); // Отключаем webhook
-    await bot.launch(); // Запускаем polling
-    console.log('Бот запущен!');
-  } catch (err) {
-    console.error('Ошибка запуска бота:', err);
+    await bot.launch(); (async () => {
+  try {
+    await bot.telegram.deleteWebhook(); // удаляем webhook
+    await bot.launch(); // запускаем бот через polling
+    console.log('Бот запущен через polling');
+  } catch (error) {
+    console.error('Ошибка запуска бота:', error);
+  }
+})();
+
   }
 })();
