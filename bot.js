@@ -1,14 +1,38 @@
 const { Telegraf, Markup } = require('telegraf');
+const fs = require('fs');
 const gamesData = require('./games.json');
 
 const bot = new Telegraf('7928615793:AAE3IktbE-rYlUEXTcV_yTKwfeXAQ_zV-no');
+
+// İstifadəçi faylı
+const USERS_FILE = './users.json';
+
+function loadUsers() {
+  if (fs.existsSync(USERS_FILE)) {
+    return JSON.parse(fs.readFileSync(USERS_FILE));
+  }
+  return [];
+}
+
+function saveUsers(users) {
+  fs.writeFileSync(USERS_FILE, JSON.stringify(users, null, 2));
+}
+
+let userIds = loadUsers();
+
+function registerUser(id) {
+  if (!userIds.includes(id)) {
+    userIds.push(id);
+    saveUsers(userIds);
+  }
+}
 
 const userLanguages = {};
 let isUnderMaintenance = false;
 
 const YOUR_ADMIN_ID = 5339012301;
 
-// Команда для включения/выключения тех.работ
+// Qlobal texniki işlər komandası
 bot.command('maintenance', (ctx) => {
   const adminId = ctx.from.id;
   if (adminId === YOUR_ADMIN_ID) {
@@ -19,15 +43,44 @@ bot.command('maintenance', (ctx) => {
   }
 });
 
-// Команда /start — выбор языка
+// Broadcast komandası (admin üçün)
+bot.command('broadcast', async (ctx) => {
+  if (ctx.from.id !== YOUR_ADMIN_ID) {
+    return ctx.reply('У вас нет прав для этой команды.');
+  }
+
+  const messageParts = ctx.message.text.split(' ').slice(1);
+  const message = messageParts.join(' ');
+
+  if (!message) {
+    return ctx.reply('❗ Напишите сообщение после команды. Пример:\n/broadcast Новые игры добавлены!');
+  }
+
+  let success = 0;
+  let failed = 0;
+
+  for (const id of userIds) {
+    try {
+      await ctx.telegram.sendMessage(id, message);
+      success++;
+    } catch (err) {
+      failed++;
+    }
+  }
+
+  ctx.reply(`📢 Рассылка завершена:\n✅ Успешно: ${success}\n❌ Ошибки: ${failed}`);
+});
+
+// Dil seçimi /start
 bot.start((ctx) => {
+  registerUser(ctx.chat.id);
   ctx.reply('Привет! Я бот, который помогает найти игры.\n\nВыберите язык:', Markup.inlineKeyboard([
     Markup.button.callback('Русский', 'set_lang_ru'),
     Markup.button.callback('Azərbaycan', 'set_lang_az')
   ]));
 });
 
-// Обработка выбора языка
+// Dil seçimləri
 bot.action('set_lang_ru', (ctx) => {
   userLanguages[ctx.chat.id] = 'ru';
   ctx.reply('Ну что, русский язык выбран! Напиши название провайдера или слот, и я расскажу, где её найти.');
@@ -38,16 +91,21 @@ bot.action('set_lang_az', (ctx) => {
   ctx.reply('Azərbaycan dili seçildi! Provayder və ya oyunun adını yaz, və mən sənə onu taparam!');
 });
 
-// Проверка на тех.работы
+// Texniki işlərə görə bloklama
 bot.use((ctx, next) => {
+  if (ctx.chat && ctx.chat.id) {
+    registerUser(ctx.chat.id);
+  }
+
   if (isUnderMaintenance) {
-    ctx.reply('⚙️ Бот временно недоступен из-за технических работ. Попробуйте позже.');
+    ctx.reply('⚙️ Bот временно недоступен из-за технических работ. Попробуйте позже.');
     return;
   }
+
   return next();
 });
 
-// Обработка текстовых сообщений
+// Axtarış mesajları
 bot.on('text', (ctx) => {
   const lang = userLanguages[ctx.chat.id];
   if (!lang) {
@@ -97,15 +155,13 @@ bot.on('text', (ctx) => {
   }
 });
 
-// Удаляем webhook и запускаем бота
-// Удаляем webhook и запускаем бота
+// Webhook-u sil və polling-i başlat
 (async () => {
   try {
-    await bot.telegram.deleteWebhook(); // отключаем webhook
-    await bot.launch(); // запускаем бот через polling
+    await bot.telegram.deleteWebhook();
+    await bot.launch();
     console.log('Бот запущен через polling');
   } catch (error) {
     console.error('Ошибка запуска бота:', error);
   }
 })();
-
